@@ -4,9 +4,13 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  // Caminhos relativos: o mesmo build funciona no navegador e no app desktop (file://).
+  base: './',
   server: {
     port: 5173,
     strictPort: false,
+    // Saídas de build não devem ser observadas (arquivos grandes, travados pelo OneDrive/antivírus).
+    watch: { ignored: ['**/release/**', '**/desktop-app/**', '**/dist/**'] },
   },
   build: {
     chunkSizeWarningLimit: 2000,

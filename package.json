@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "EletriLab 3D — simulador educacional de instalações elétricas residenciais (quadro de distribuição, proteção, dimensionamento e simulação).",
+  "author": "Eliezer Westhauser",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +11,44 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "icon": "node scripts/make-icon.mjs",
+    "desktop:prepare": "node scripts/prepare-desktop.mjs",
+    "desktop": "npm run build && npm run desktop:prepare && electron desktop-app",
+    "dist:win": "npm run build && npm run desktop:prepare && node scripts/dist-win.mjs"
+  },
+  "build": {
+    "appId": "br.eletrilab.eletrilab3d",
+    "productName": "EletriLab 3D",
+    "copyright": "Copyright © 2026 Eliezer Westhauser",
+    "electronVersion": "44.7.0",
+    "directories": {
+      "app": "desktop-app",
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "**/*"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "icon": "build/icon.png"
+    },
+    "portable": {
+      "artifactName": "EletriLab-3D-${version}-portable.exe"
+    },
+    "nsis": {
+      "artifactName": "EletriLab-3D-${version}-instalador.exe",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "EletriLab 3D"
+    }
   },
   "dependencies": {
     "@react-three/drei": "9.114.0",
@@ -28,6 +66,8 @@
     "@types/react-dom": "18.3.1",
     "@types/three": "0.169.0",
     "@vitejs/plugin-react": "4.3.3",
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
     "typescript": "5.6.3",
     "vite": "5.4.10",
     "vitest": "2.1.4"
