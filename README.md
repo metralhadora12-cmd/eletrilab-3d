@@ -28,6 +28,29 @@ Abra `http://localhost:5173`. Outros comandos:
 | `npm test` | Executa os testes automatizados (Vitest) |
 | `npm run typecheck` | Somente verificação de tipos |
 
+### Aplicativo desktop para Windows (.exe)
+
+O app também é empacotado com **Electron** (o mesmo build web, carregado localmente):
+
+```bash
+npm run dist:win
+```
+
+Gera em `release/`:
+
+| Arquivo | Uso |
+| --- | --- |
+| `EletriLab-3D-<versão>-portable.exe` | Executável portátil: roda direto, sem instalação |
+| `EletriLab-3D-<versão>-instalador.exe` | Instalador (por usuário, escolha da pasta, atalhos no menu Iniciar e na área de trabalho) |
+
+Outros comandos: `npm run desktop` (abre o app desktop sem empacotar) e `npm run icon` (regera `build/icon.png`).
+
+Observações:
+- O empacotamento grava numa pasta temporária do sistema e copia só os `.exe` para `release/`, porque pastas sincronizadas (OneDrive, Dropbox) travam arquivos durante o build (erro `EPERM`).
+- Os executáveis **não têm assinatura digital**: na primeira execução o Windows SmartScreen pode exibir "O Windows protegeu o computador" → *Mais informações* → *Executar assim mesmo*. Para distribuição ampla, assine com um certificado de assinatura de código.
+- Os projetos do app desktop ficam no armazenamento local do próprio aplicativo (separado do navegador); use Exportar/Importar JSON para levar projetos entre eles.
+- Autoteste do pacote: `ELETRILAB_SMOKE_TEST=1` ao executar o app imprime `SMOKE {...}` (título, canvas/WebGL, diagnóstico, armazenamento, erros do console) e encerra.
+
 Nenhuma funcionalidade essencial depende de serviços externos: texturas e rótulos 3D são gerados em canvas, o mapa de ambiente é procedural (`RoomEnvironment`) e os projetos ficam no armazenamento local do navegador.
 
 ---
