@@ -155,4 +155,8 @@ Resultados **calculados**: tensões, correntes, somas diferenciais, potências. 
 
 ## Testes
 
+### Integração contínua
+
+O workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) roda no GitHub Actions a cada push e pull request para `main` (e manualmente, em *Actions → CI → Run workflow*): instala as dependências com `npm ci` (Node 24), executa os testes, gera o build de produção (que inclui a verificação de tipos) e publica a pasta `dist/` como artefato `eletrilab-3d-dist` por 7 dias.
+
 `npm test` executa 93 testes (Vitest) cobrindo: potência e corrente, unidades, queda de tensão, dimensionamento sob diferentes condições de instalação, coordenação condutor × proteção, ligações de fase/neutro/PE, conexões ausentes, parâmetros desconhecidos, abertura e fechamento de dispositivos, atuação didática de disjuntores e DR, persistência e recuperação, sincronização 3D × unifilar e avaliação dos desafios. Os valores de referência têm memória de cálculo manual nos próprios testes.
